@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `Gatsby Babylon Starter`,
     description: `Kick off your next, great Gatsby-Babylon project with this starter.`,
-    author: `@gatsbyjs`,
+    author: `Andrija Perusic, https://andrijaperusic.com`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
