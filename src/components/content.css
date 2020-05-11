@@ -1,0 +1,11 @@
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 11vh 0 0 9%;
+  width: 25%;
+  min-width: 292px;
+  pointer-events: none;
+  z-index: 99;
+  color: white;
+}
