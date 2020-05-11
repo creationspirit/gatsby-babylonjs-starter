@@ -1,9 +1,15 @@
-import React from 'react';
-import { FreeCamera, Vector3, HemisphericLight, MeshBuilder } from '@babylonjs/core';
+import React, { useRef } from 'react';
+import { ActionManager } from '@babylonjs/core/Actions/actionManager';
+import { ExecuteCodeAction } from '@babylonjs/core/Actions';
+import { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight';
+import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
+import { Vector3 } from '@babylonjs/core/Maths/math';
+import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import BabylonScene from 'babylonjs-hook';
 import './scene.css';
 
 let box;
+let babylonLink;
 
 const onSceneReady = scene => {
   // This creates and positions a free camera (non-mesh)
@@ -29,6 +35,17 @@ const onSceneReady = scene => {
   // Move the box upward 1/2 its height
   box.position.y = 1;
 
+  // Register click event on box mesh
+  box.actionManager = new ActionManager(scene);
+  box.actionManager.registerAction(
+    new ExecuteCodeAction(
+        ActionManager.OnPickTrigger,
+        () => {
+          babylonLink.current.click()
+        }
+    )
+  );
+
   // Our built-in 'ground' shape.
   MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
 }
@@ -45,6 +62,15 @@ const onRender = scene => {
   }
 }
 
-export default () => (
-    <BabylonScene antialias onSceneReady={onSceneReady} onRender={onRender} id='render-canvas' />
-)
+export default () => {
+  babylonLink = useRef(null);
+
+  return (
+    <>
+      <BabylonScene antialias onSceneReady={onSceneReady} onRender={onRender} id='render-canvas' />
+      <a ref={babylonLink} target="_blank" rel="noopener noreferrer" href="https://www.babylonjs.com/">
+        Babylon documentation
+      </a>
+    </>
+  )
+}
